@@ -1,0 +1,38 @@
+<script lang="uts">
+import {globalConfig} from './config'
+import { getToken } from '@/utils/auth'
+
+export default {
+  globalData: {
+	  config:{}     
+  },
+  onLaunch() {
+    this.initApp()
+  },
+  methods: {
+    // 初始化应用
+    initApp() {
+      // 初始化应用配置
+      this.initConfig()
+      // 检查用户登录状态
+      this.checkLogin()
+    },
+    initConfig() {
+      this.globalData.config = JSON.parseObject(JSON.stringify(globalConfig)) as UTSJSONObject
+    },
+    checkLogin() {
+      const token = getToken()
+      if (token == null || token == "") {
+        // Not logged in, redirect to login
+        uni.reLaunch({
+          url: '/pages/login'
+        });
+      }
+    }
+  }
+}
+</script>
+
+<style lang="scss">
+  @import '@/static/scss/index.scss'
+</style>
